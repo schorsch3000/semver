@@ -56,6 +56,14 @@ class Version extends Versionable
     }
 
     /**
+     * returns the original version string
+     * @return originalVersionString
+     */
+    public function getOriginalVersion(){
+        return $this->originalVersionString;
+    }
+
+    /**
      * Get the pre release version
      *
      * @return PreRelease
@@ -128,6 +136,19 @@ class Version extends Versionable
      **/
     public function __toString()
     {
-        return $this->originalVersionString;
+        // Start with versionable part
+        $string = parent::__toString();
+
+        // Add pre-release
+        if ($this->hasPreRelease()) {
+            $string .= '-' . $this->getPreRelease();
+        }
+
+        // Add build
+        if ($this->hasBuild()) {
+            $string .= '+' . $this->getBuild();
+        }
+
+        return $string;
     }
 }
